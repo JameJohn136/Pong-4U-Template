@@ -77,5 +77,23 @@ namespace Pong.Properties {
                 return ResourceManager.GetStream("score", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream wallBounce {
+            get {
+                return ResourceManager.GetStream("wallBounce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream wallBounce1 {
+            get {
+                return ResourceManager.GetStream("wallBounce1", resourceCulture);
+            }
+        }
     }
 }

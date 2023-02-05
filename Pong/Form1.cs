@@ -1,7 +1,7 @@
 ﻿/*
  * Description:     A basic PONG simulator
- * Author:           
- * Date:            
+ * Author:        James Johnson   
+ * Date:            Feb 3rd 2023
  */
 
 #region libraries
@@ -27,10 +27,13 @@ namespace Pong
 
         //graphics objects for drawing
         SolidBrush whiteBrush = new SolidBrush(Color.White);
+        SolidBrush blueBrush = new SolidBrush(Color.Blue);
+        SolidBrush redBrush = new SolidBrush(Color.Red);
         Font drawFont = new Font("Courier New", 10);
 
         // Sounds for game
         SoundPlayer scoreSound = new SoundPlayer(Properties.Resources.score);
+        SoundPlayer wallBounceSound = new SoundPlayer(Properties.Resources.wallBounce1);
         SoundPlayer collisionSound = new SoundPlayer(Properties.Resources.collision);
 
         //determines whether a key is being pressed or not
@@ -63,6 +66,7 @@ namespace Pong
 
         public Form1()
         {
+            collisionSound.Stream = null;
             InitializeComponent();
         }
 
@@ -138,7 +142,15 @@ namespace Pong
 
             ball = new Rectangle(this.Width / 2 - BALL_WIDTH, this.Height / 2, BALL_WIDTH, BALL_HEIGHT);
 
+            // Update Score Text
+            UpdateScore();
 
+        }
+
+        private void UpdateScore()
+        {
+            player1ScoreLabel.Text = player1Score.ToString();
+            plaery2ScoreLabel.Text = player2Score.ToString();
         }
 
         /// <summary>
@@ -216,7 +228,21 @@ namespace Pong
             if (ball.IntersectsWith(player1) || ball.IntersectsWith(player2))
             {
                 collisionSound.Play();
-                ballMoveRight = !ballMoveRight;
+                
+                if (ball.IntersectsWith(player1))
+                {
+                    ballMoveRight = true;
+                } else
+                {
+                    ballMoveRight = false;
+                }
+
+                /*
+                 * I tried to just reverse the ballMoveRight bool with
+                 * ballMoveRight = !ballMoveRight;
+                 * but it caused issues when the ball hit the side of the paddle
+                 * as it would knock it back and forth
+                 */
             }
 
             #endregion
@@ -228,7 +254,7 @@ namespace Pong
                 // TODO
                 scoreSound.Play();
                 player2Score++;
-                plaery2ScoreLabel.Text = player2Score.ToString();
+                UpdateScore();
 
 
                 if (player2Score >= gameWinScore)
@@ -247,7 +273,7 @@ namespace Pong
                 // TODO
                 scoreSound.Play();
                 player1Score++;
-                player1ScoreLabel.Text = player1Score.ToString();
+                UpdateScore();
 
 
                 if (player1Score >= gameWinScore)
@@ -276,21 +302,27 @@ namespace Pong
         /// <param name="winner">The player name to be shown as the winner</param>
         private void GameOver(string winner)
         {
-            newGameOk = true;
 
-            startLabel.Text = $"{winner} Wins!!!\n Play Again?";
+            startLabel.Text = $"{winner} Wins!!!\n Play Again?\n Space to play again\n ESC to stop";
             gameUpdateLoop.Enabled = false;
+            startLabel.Visible = true;
+            newGameOk = true;
             Refresh();
 
         }
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            // TODO draw player2 using FillRectangle
-            e.Graphics.FillRectangle(whiteBrush, player1);
-            e.Graphics.FillRectangle(whiteBrush, player2);
+            e.Graphics.FillRectangle(redBrush, player1);
+            e.Graphics.FillRectangle(blueBrush, player2);
 
-            e.Graphics.FillRectangle(whiteBrush, ball);
+            if (ballMoveRight)
+            {
+                e.Graphics.FillRectangle(redBrush, ball);
+            } else
+            {
+                e.Graphics.FillRectangle(blueBrush, ball);
+            }
 
         }
 
