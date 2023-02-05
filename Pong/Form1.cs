@@ -33,7 +33,6 @@ namespace Pong
 
         // Sounds for game
         SoundPlayer scoreSound = new SoundPlayer(Properties.Resources.score);
-        SoundPlayer wallBounceSound = new SoundPlayer(Properties.Resources.wallBounce1);
         SoundPlayer collisionSound = new SoundPlayer(Properties.Resources.collision);
 
         //determines whether a key is being pressed or not
@@ -66,7 +65,6 @@ namespace Pong
 
         public Form1()
         {
-            collisionSound.Stream = null;
             InitializeComponent();
         }
 
