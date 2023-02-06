@@ -59,7 +59,7 @@ namespace Pong
         //player and game scores
         int player1Score = 0;
         int player2Score = 0;
-        int gameWinScore = 2;  // number of points needed to win game
+        int gameWinScore = 3;  // number of points needed to win game
 
         #endregion
 
@@ -301,7 +301,7 @@ namespace Pong
         private void GameOver(string winner)
         {
 
-            startLabel.Text = $"{winner} Wins!!!\n Play Again?\n Space to play again\n ESC to stop";
+            startLabel.Text = $"{winner} Wins!!!\n Play Again?\n\n Space to play again\n ESC to stop";
             gameUpdateLoop.Enabled = false;
             startLabel.Visible = true;
             newGameOk = true;
